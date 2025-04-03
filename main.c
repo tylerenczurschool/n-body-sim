@@ -5,17 +5,22 @@
 #include "import.h"
 
 
-int main() {
+int main(int argc, char** argv) {
 
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Window* window = SDL_CreateWindow("Gravity", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0);
     SDL_Surface* surface = SDL_GetWindowSurface(window);
-    
-    FILE* fptr = fopen("circles.txt", "r");
+    char* filename = "circles.txt";
+
+    if (argc == 2) {
+        filename = argv[1];
+    }
+
+    FILE* fptr = fopen(filename, "r");
     int n;
     struct Circle* circles = processFile(fptr, &n);
     if (circles == NULL) {
-        printf("File processing failed");
+        printf("File processing failed\n");
         return 1;
     }
 
